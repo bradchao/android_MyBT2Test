@@ -46,4 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void finish() {
+        if (isSupport && !isBTInitEnable){
+            mBluetoothAdapter.disable();
+        }
+        super.finish();
+    }
 }
