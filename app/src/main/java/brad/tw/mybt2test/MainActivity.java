@@ -120,12 +120,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            HashMap<String,String> item = new HashMap<>();
-            item.put(from[0], device.getName());
-            item.put(from[1], device.getAddress());
-            item.put(from[2], "scan");
-            data.add(item);
-            adapter.notifyDataSetChanged();
+            if (!isDeviceExist(device.getAddress())) {
+                HashMap<String, String> item = new HashMap<>();
+                item.put(from[0], device.getName());
+                item.put(from[1], device.getAddress());
+                item.put(from[2], "scan");
+                data.add(item);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -152,4 +154,15 @@ public class MainActivity extends AppCompatActivity {
         }
         super.finish();
     }
+
+    private boolean isDeviceExist(String addr){
+        boolean isExist = false;
+        for (HashMap<String,String> device : data){
+            if (device.get(from[1]).equals(addr)){
+                isExist = true;
+            }
+        }
+        return isExist;
+    }
+
 }
