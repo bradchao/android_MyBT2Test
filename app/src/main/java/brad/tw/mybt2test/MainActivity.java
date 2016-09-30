@@ -131,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void enableDiscoverability(View v){
+        Intent discoverableIntent = new
+                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+        startActivity(discoverableIntent);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         for (HashMap<String,String> device : data){
             if (device.get(from[1]).equals(addr)){
                 isExist = true;
+                break;
             }
         }
         return isExist;
