@@ -9,6 +9,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="setupBT"
-        android:text="Setup BT" />
+        android:onClick="queryPaired"
+        android:text="Query Paired Device" />
 </LinearLayout>

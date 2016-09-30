@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_ENABLE_BT = 1;
+
     private BluetoothAdapter mBluetoothAdapter;
     private boolean isSupport = true;
-    private boolean isBTInitEnable = false;
+    private boolean isBTInitEnable = false, isBTEnable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
             if (!mBluetoothAdapter.isEnabled()) {
                 Intent enableBtIntent = new Intent(
                         BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 1);
+                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             }else{
                 isBTInitEnable = true;
+                isBTEnable = true;
             }
         }
     }
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (requestCode == REQUEST_ENABLE_BT){
+            if (resultCode == RESULT_OK){
+                isBTEnable = true;
+            }
+        }
     }
 }
