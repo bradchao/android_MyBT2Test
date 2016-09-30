@@ -9,8 +9,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="queryPaired"
-        android:text="Query Paired Device" />
+        android:onClick="scanDevices"
+        android:text="Scan Device" />
     <ListView
         android:id="@+id/listDevices"
         android:layout_width="match_parent"
