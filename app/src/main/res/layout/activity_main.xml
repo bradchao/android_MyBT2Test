@@ -16,6 +16,11 @@
         android:layout_height="wrap_content"
         android:onClick="enableDiscoverability"
         android:text="Enabling discoverability" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="asServer"
+        android:text="As a Server" />
     <ListView
         android:id="@+id/listDevices"
         android:layout_width="match_parent"
