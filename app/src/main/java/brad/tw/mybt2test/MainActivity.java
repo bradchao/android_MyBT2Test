@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private SimpleAdapter adapter;
     private String[] from = {"name","addr","type"};
     private int[] to = {R.id.item_name,R.id.item_addr,R.id.item_type};
-    private LinkedList<HashMap<String,String>> data;
+    private LinkedList<HashMap<String,Object>> data;
 
     private MyBTReceiver receiver;
 
@@ -69,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
         data = new LinkedList<>();
         adapter = new SimpleAdapter(this,data,R.layout.layout_item,from,to);
         listDevices.setAdapter(adapter);
+        listDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BluetoothDevice remoteDevice = (BluetoothDevice) data.get(position).get("device");
+                
+            }
+        });
+
     }
 
     public void setupBT(){
@@ -112,10 +121,11 @@ public class MainActivity extends AppCompatActivity {
         // Querying paired devices
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         for (BluetoothDevice device : pairedDevices){
-            HashMap<String,String> item = new HashMap<>();
+            HashMap<String,Object> item = new HashMap<>();
             item.put(from[0], device.getName());
             item.put(from[1], device.getAddress());
             item.put(from[2], "paired");
+            item.put("device", device);
             data.add(item);
         }
         adapter.notifyDataSetChanged();
@@ -129,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             if (!isDeviceExist(device.getAddress())) {
-                HashMap<String, String> item = new HashMap<>();
+                HashMap<String, Object> item = new HashMap<>();
                 item.put(from[0], device.getName());
                 item.put(from[1], device.getAddress());
                 item.put(from[2], "scan");
+                item.put("device", device);
                 data.add(item);
                 adapter.notifyDataSetChanged();
             }
@@ -171,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isDeviceExist(String addr){
         boolean isExist = false;
-        for (HashMap<String,String> device : data){
-            if (device.get(from[1]).equals(addr)){
+        for (HashMap<String,Object> device : data){
+            if (((String)device.get(from[1])).equals(addr)){
                 isExist = true;
                 break;
             }
