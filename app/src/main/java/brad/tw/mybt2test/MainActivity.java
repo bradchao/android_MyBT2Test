@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private MyBTReceiver receiver;
 
     private UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+    private AcceptThread serverThread;
 
 
     @Override
@@ -178,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
         if (isSupport && !isBTInitEnable){
             mBluetoothAdapter.disable();
         }
+        if (serverThread!= null){
+            serverThread.cancel();
+        }
+
         super.finish();
     }
 
@@ -193,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void asServer(View v){
-        AcceptThread serverThread = new AcceptThread();
+        serverThread = new AcceptThread();
         serverThread.start();
     }
 
@@ -219,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                     socket = mmServerSocket.accept();
                     Log.d("brad", "accept");
                 } catch (IOException e) {
-                    break;
+                    //break;
                 }
                 // If a connection was accepted
 //                if (socket != null) {
