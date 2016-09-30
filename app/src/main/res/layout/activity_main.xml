@@ -9,5 +9,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:onClick="setupBT"
+        android:text="Setup BT" />
 </LinearLayout>
